@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,8 +29,11 @@ public class AppUser {
       name = "app_user_id_sequence", sequenceName = "app_user_id_sequence", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_id_sequence")
   private Long id;
+  @NotNull
   private String firstName;
+  @NotNull
   private String lastName;
+  @NotNull
   private String email;
 
   @Override

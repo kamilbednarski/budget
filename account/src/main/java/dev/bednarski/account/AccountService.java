@@ -1,7 +1,8 @@
 package dev.bednarski.account;
 
-import static java.lang.Boolean.TRUE;
+import static java.util.Objects.nonNull;
 
+import dev.bednarski.account.exception.user.UserNotFoundException;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,18 +15,24 @@ public record AccountService(
     DirectExchange directExchange) {
 
   public void createAccount(AccountCreationRequest toCreate) {
-    Boolean isUserExisting = template.convertSendAndReceiveAsType(
+    boolean isUserPresent = sendQueryToCheckUserBy(toCreate.userId());
+    if (!isUserPresent) {
+      throw new UserNotFoundException();
+    }
+    repository.save(
+        Account.builder()
+            .userId(toCreate.userId())
+            .name(toCreate.name())
+            .build());
+
+  }
+
+  private boolean sendQueryToCheckUserBy(Long userId) {
+    AppUserPresenceMessage responseMessage = template.convertSendAndReceiveAsType(
         directExchange.getName(),
         MessagingConfig.ROUTING_KEY,
-        toCreate.userId(),
-        new ParameterizedTypeReference<>() {});
-
-    if (TRUE.equals(isUserExisting)) {
-      repository.save(
-          Account.builder()
-              .userId(toCreate.userId())
-              .name(toCreate.name())
-              .build());
-    }
+        new AppUserPresenceMessage(userId, false),
+        new ParameterizedTypeReference<>() { });
+    return nonNull(responseMessage) && responseMessage.isUserPresent();
   }
 }
