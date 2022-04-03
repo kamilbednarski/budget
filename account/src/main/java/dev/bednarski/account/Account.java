@@ -26,6 +26,6 @@ public class Account {
       name = "account_id_sequence", sequenceName = "account_id_sequence", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id_sequence")
   private Long id;
-
+  private Long userId;
   private String name;
 }

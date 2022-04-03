@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - postgres_app_user_network
     restart: unless-stopped
 
 
@@ -27,7 +27,7 @@ services:
     ports:
       - "5431:5432"
     networks:
-      - postgres
+      - postgres_account_network
     restart: unless-stopped
 
 
@@ -43,11 +43,25 @@ services:
     ports:
       - "5050:80"
     networks:
-      - postgres
+      - postgres_app_user_network
+      - postgres_account_network
     restart: unless-stopped
 
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbitmq
+
 networks:
-  postgres:
+  postgres_app_user_network:
+    driver: bridge
+  postgres_account_network:
+    driver: bridge
+  rabbitmq:
     driver: bridge
 
 volumes:
