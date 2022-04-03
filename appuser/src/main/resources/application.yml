@@ -5,8 +5,8 @@ spring:
   application:
     name: app_user_application
   datasource:
-    url: jdbc:postgresql://localhost:5432/appuser
-    username: developer
+    url: jdbc:postgresql://localhost:5432/app_user_db
+    username: postgres
     password: password
   jpa:
     properties:

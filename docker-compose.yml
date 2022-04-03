@@ -1,18 +1,35 @@
 services:
-  postgres:
+  postgres_app_user:
     container_name: postgres_app_user
     image: postgres
     environment:
-      POSTGRES_USER: developer
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
     volumes:
-      - postgres:/data/postgres
+      - ./appuser/docker:/scripts
+      - postgres_app_user:/data/postgres
     ports:
       - "5432:5432"
     networks:
       - postgres
     restart: unless-stopped
+
+
+  postgres_account:
+    container_name: postgres_account
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - ./account/docker:/scripts
+      - postgres_account:/data/postgres
+    ports:
+      - "5431:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
 
   pgadmin:
     container_name: pgadmin
@@ -34,5 +51,6 @@ networks:
     driver: bridge
 
 volumes:
-  postgres:
+  postgres_app_user:
+  postgres_account:
   pgadmin:
