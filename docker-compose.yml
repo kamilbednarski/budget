@@ -1,33 +1,33 @@
 services:
-  postgres_app_user:
-    container_name: postgres_app_user
+  user_service_db:
+    container_name: user_service_db
     image: postgres
     environment:
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
     volumes:
-      - ./appuser/docker:/scripts
-      - postgres_app_user:/data/postgres
+      - ./user_service/docker:/scripts
+      - user_service_db:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - postgres_app_user_network
+      - user_service_db_network
     restart: unless-stopped
 
 
-  postgres_account:
-    container_name: postgres_account
+  account_service_db:
+    container_name: account_service_db
     image: postgres
     environment:
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
     volumes:
-      - ./account/docker:/scripts
-      - postgres_account:/data/postgres
+      - ./account_service/docker:/scripts
+      - account_service_db:/data/postgres
     ports:
       - "5431:5432"
     networks:
-      - postgres_account_network
+      - account_service_db_network
     restart: unless-stopped
 
 
@@ -43,8 +43,8 @@ services:
     ports:
       - "5050:80"
     networks:
-      - postgres_app_user_network
-      - postgres_account_network
+      - user_service_db_network
+      - account_service_db_network
     restart: unless-stopped
 
   rabbitmq:
@@ -57,14 +57,14 @@ services:
       - rabbitmq
 
 networks:
-  postgres_app_user_network:
+  user_service_db_network:
     driver: bridge
-  postgres_account_network:
+  account_service_db_network:
     driver: bridge
   rabbitmq:
     driver: bridge
 
 volumes:
-  postgres_app_user:
-  postgres_account:
+  user_service_db:
+  account_service_db:
   pgadmin:
