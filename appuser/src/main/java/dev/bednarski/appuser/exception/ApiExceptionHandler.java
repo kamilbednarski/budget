@@ -1,6 +1,6 @@
-package dev.bednarski.account.exception;
+package dev.bednarski.appuser.exception;
 
-import dev.bednarski.account.exception.user.UserNotFoundException;
+import dev.bednarski.appuser.exception.user.UserAlreadyExistsException;
 import java.time.ZonedDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-  @ExceptionHandler(value = {UserNotFoundException.class})
-  public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
-    log.error("UserNotFoundException: ", exception);
-    HttpStatus status = HttpStatus.NOT_FOUND;
+  @ExceptionHandler(value = {UserAlreadyExistsException.class})
+  public ResponseEntity<Object> handleUserAlreadyExistsException(
+      UserAlreadyExistsException exception) {
+    log.error("UserAlreadyExistsException: ", exception);
+    HttpStatus status = HttpStatus.BAD_REQUEST;
     var responseBody = new ExceptionResponse(exception.getMessage(), status, ZonedDateTime.now());
     return new ResponseEntity<>(responseBody, status);
   }

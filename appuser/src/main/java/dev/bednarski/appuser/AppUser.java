@@ -34,6 +34,8 @@ public class AppUser {
   @NotNull
   private String lastName;
   @NotNull
+  private String username;
+  @NotNull
   private String email;
 
   @Override

@@ -1,5 +1,6 @@
 package dev.bednarski.appuser;
 
+import dev.bednarski.appuser.exception.user.UserAlreadyExistsException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
@@ -7,17 +8,24 @@ import org.springframework.stereotype.Service;
 public record AppUserService(AppUserRepository repository) {
 
   public void register(AppUserRegistrationRequest toRegister) {
+    if (isUserExisting(toRegister.username())) {
+      throw new UserAlreadyExistsException();
+    }
     AppUser appUser = AppUser.builder()
         .firstName(toRegister.firstName())
         .lastName(toRegister.lastName())
+        .username(toRegister.username())
         .email(toRegister.email())
         .build();
     repository.save(appUser);
   }
 
+  private boolean isUserExisting(String username) {
+    return repository.existsByUsername(username);
+  }
+
   @RabbitListener(queues = MessagingConfig.QUEUE_NAME)
   public AppUserPresenceMessage isUserExisting(AppUserPresenceMessage message) {
-    boolean isUserPresent = repository.existsById(message.userId());
-    return new AppUserPresenceMessage(message.userId(), isUserPresent);
+    return new AppUserPresenceMessage(message.username(), isUserExisting(message.username()));
   }
 }

@@ -15,7 +15,7 @@ public record AccountService(
     DirectExchange directExchange) {
 
   public void createAccount(AccountCreationRequest toCreate) {
-    boolean isUserPresent = sendQueryToCheckUserBy(toCreate.userId());
+    boolean isUserPresent = sendQueryToCheckUserBy(toCreate.username());
     if (!isUserPresent) {
       throw new UserNotFoundException();
     }
@@ -27,11 +27,11 @@ public record AccountService(
 
   }
 
-  private boolean sendQueryToCheckUserBy(Long userId) {
+  private boolean sendQueryToCheckUserBy(String username) {
     AppUserPresenceMessage responseMessage = template.convertSendAndReceiveAsType(
         directExchange.getName(),
         MessagingConfig.ROUTING_KEY,
-        new AppUserPresenceMessage(userId, false),
+        new AppUserPresenceMessage(username, false),
         new ParameterizedTypeReference<>() { });
     return nonNull(responseMessage) && responseMessage.isUserPresent();
   }

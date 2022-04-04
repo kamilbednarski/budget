@@ -1,3 +1,3 @@
 package dev.bednarski.account;
 
-public record AppUserPresenceMessage(Long userId, boolean isUserPresent) { }
+public record AppUserPresenceMessage(String username, boolean isUserPresent) { }
