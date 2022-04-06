@@ -1,7 +1,5 @@
 
 x
-Haccount_service/src/main/java/dev/bednarski/account/MessagingConfig.java,4/b/4b4a45da3c1b1e0c0ba1107473482c49d48119d8
-x
 Huser_service/src/main/java/dev/bednarski/appuser/AppUserApplication.java,1/3/136d6e9d0bd41b3d2035770fa24c41419d6f00ed
 w
 Guser_service/src/main/java/dev/bednarski/appuser/AppUserController.java,5/3/53f00c339e19f05d4f2c890470eee3ed90964786
@@ -9,8 +7,6 @@ z
 Jaccount_service/src/main/java/dev/bednarski/account/AccountController.java,8/d/8d4effec20439462ee0d1c2d4e95ae7495912870
 
 Oaccount_service/src/main/java/dev/bednarski/account/AppUserPresenceMessage.java,3/9/39289e35e1c18564dc269c1e6032de60a043cb43
-w
-Gaccount_service/src/main/java/dev/bednarski/account/AccountService.java,b/b/bbaa23e13fd62a634858d4f97d728634ee63b6ac
 m
 =user_service/src/main/java/dev/bednarski/appuser/AppUser.java,c/7/c74ace2b436b2b290e8d64b3e8658f3824b47f0b
 |
@@ -35,11 +31,7 @@ Suser_service/src/main/java/dev/bednarski/appuser/exception/ApiExceptionHandler.
 Taccount_service/src/main/java/dev/bednarski/account/exception/ExceptionResponse.java,d/d/dded1c77407954b4c0c011a214ad182cf97451ca
 Å
 Quser_service/src/main/java/dev/bednarski/appuser/exception/ExceptionResponse.java,5/6/56a74ecd5ec744c684e3aaf3b1d81f3b82f3a6f0
-t
-Duser_service/src/main/java/dev/bednarski/appuser/AppUserService.java,c/b/cb8782c279f06bee57c0cc0b6fbb5776600476da
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 Q
 !account_service/docker/init-db.sh,6/6/668b5ac7bdb3a9353f474f332a8a06b469b42d1e
-L
-registration_service/pom.xml,5/f/5f1745b8ac713a94e11b8a2490faed12657dfe5e
