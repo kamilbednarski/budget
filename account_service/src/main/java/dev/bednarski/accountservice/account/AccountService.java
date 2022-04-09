@@ -5,16 +5,12 @@ import dev.bednarski.accountservice.exception.user.UserNotFoundException;
 import dev.bednarski.accountservice.messaging.MessageSender;
 import dev.bednarski.accountservice.user.UserPresenceResponse;
 import java.util.Optional;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public record AccountService(
     AccountRepository repository,
-    MessageSender sender,
-    RabbitTemplate template,
-    DirectExchange directExchange) {
+    MessageSender sender) {
 
   public void createAccount(AccountCreationRequest request) {
     Long userId = verifyUserAndReadUserId(request.username());
