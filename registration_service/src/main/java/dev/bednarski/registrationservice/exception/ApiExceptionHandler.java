@@ -1,6 +1,7 @@
 package dev.bednarski.registrationservice.exception;
 
 import dev.bednarski.registrationservice.exception.email.EmailAlreadyTakenException;
+import dev.bednarski.registrationservice.exception.email.InvalidEmailFormatException;
 import dev.bednarski.registrationservice.exception.email.MissingEmailException;
 import dev.bednarski.registrationservice.exception.name.MissingFirstNameException;
 import dev.bednarski.registrationservice.exception.name.MissingLastNameException;
@@ -78,6 +79,14 @@ public class ApiExceptionHandler {
   @ExceptionHandler(value = {UsernameTooShortException.class})
   public ResponseEntity<Object> handle(UsernameTooShortException exception) {
     log.error("UsernameTooShortException: ", exception);
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+    var responseBody = new ExceptionResponse(exception.getMessage(), status, ZonedDateTime.now());
+    return new ResponseEntity<>(responseBody, status);
+  }
+
+  @ExceptionHandler(value = {InvalidEmailFormatException.class})
+  public ResponseEntity<Object> handle(InvalidEmailFormatException exception) {
+    log.error("InvalidEmailFormatException: ", exception);
     HttpStatus status = HttpStatus.BAD_REQUEST;
     var responseBody = new ExceptionResponse(exception.getMessage(), status, ZonedDateTime.now());
     return new ResponseEntity<>(responseBody, status);

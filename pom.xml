@@ -16,6 +16,7 @@
     <module>eureka_service</module>
     <module>user_service</module>
     <module>registration_service</module>
+    <module>mail_service</module>
   </modules>
 
   <properties>

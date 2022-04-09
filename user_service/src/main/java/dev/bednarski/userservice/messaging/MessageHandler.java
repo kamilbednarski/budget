@@ -31,7 +31,12 @@ public record MessageHandler(UserService service) {
 
   @RabbitListener(queues = MessagingConfig.REGISTRATION_QUEUE)
   public RegistrationResponse register(RegistrationRequest request) {
-    Long userId = service.registerFrom(request);
-    return new RegistrationResponse(userId);
+    User user = service.registerFrom(request);
+    return new RegistrationResponse(
+        user.getId(),
+        user.getFirstName(),
+        user.getLastName(),
+        user.getUsername(),
+        user.getEmail());
   }
 }

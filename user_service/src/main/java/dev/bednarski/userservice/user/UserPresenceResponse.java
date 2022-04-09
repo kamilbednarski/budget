@@ -1,3 +1,5 @@
 package dev.bednarski.userservice.user;
 
-public record UserPresenceResponse(boolean isUserPresent, Long userId) { }
+public record UserPresenceResponse(
+    boolean isUserPresent,
+    Long userId) { }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public record UserService(UserRepository repository) {
 
-  public Long registerFrom(RegistrationRequest request) {
+  public User registerFrom(RegistrationRequest request) {
     User user = User.builder()
         .firstName(request.firstName())
         .lastName(request.lastName())
@@ -16,7 +16,7 @@ public record UserService(UserRepository repository) {
         .password(request.password())
         .build();
     repository.save(user);
-    return user.getId();
+    return user;
   }
 
   public boolean isUsernameTaken(String username) {

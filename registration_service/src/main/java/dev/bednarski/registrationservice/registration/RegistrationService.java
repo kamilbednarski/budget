@@ -13,17 +13,14 @@ public record RegistrationService(
 
   public void register(RegistrationRequest request) {
     validator.validate(request);
-    Long userId = registerAndReadUserId(request);
-    String token = tokenService.createTokenFor(userId);
-
-//  emailSender.send(user.getEmail(), createConfirmationEmailWithTokenForUser(user, token))
-//  send email to confirm registration
+    RegistrationResponse userData = registerAndReadUserData(request);
+    String token = tokenService.createTokenFor(userData.id());
+    sender.sendToPost(new MailRequest(userData.firstName(), userData.email(), token));
   }
 
-  private Long registerAndReadUserId(RegistrationRequest request) {
-    RegistrationResponse response = Optional.ofNullable(sender.sendToRegister(request))
+  private RegistrationResponse registerAndReadUserData(RegistrationRequest request) {
+    return Optional.ofNullable(sender.sendToRegister(request))
         .orElseThrow(UserServiceUnavailableException::new);
-    return response.userId();
   }
 
   public void confirmRegistration(String token) {

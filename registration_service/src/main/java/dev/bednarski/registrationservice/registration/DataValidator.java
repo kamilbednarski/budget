@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 
 import dev.bednarski.registrationservice.exception.connection.UserServiceUnavailableException;
 import dev.bednarski.registrationservice.exception.email.EmailAlreadyTakenException;
+import dev.bednarski.registrationservice.exception.email.InvalidEmailFormatException;
 import dev.bednarski.registrationservice.exception.email.MissingEmailException;
 import dev.bednarski.registrationservice.exception.name.MissingFirstNameException;
 import dev.bednarski.registrationservice.exception.name.MissingLastNameException;
@@ -14,13 +15,17 @@ import dev.bednarski.registrationservice.exception.username.MissingUsernameExcep
 import dev.bednarski.registrationservice.exception.username.UsernameAlreadyTakenException;
 import dev.bednarski.registrationservice.messaging.MessageSender;
 import java.util.Optional;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Service;
 
 @Service
 public record DataValidator(MessageSender messageSender) {
 
+  private static final EmailValidator EMAIL_VALIDATOR = EmailValidator.getInstance();
+
   public void validate(RegistrationRequest request) {
     validateCompletenessAndFormOf(request);
+    validateFormatOf(request.email());
     validateUniquenessOf(request.username(), request.email());
   }
 
@@ -44,6 +49,16 @@ public record DataValidator(MessageSender messageSender) {
 
   private boolean isNullOrEmpty(String data) {
     return isNull(data) || data.isEmpty();
+  }
+
+  public void validateFormatOf(String email) {
+    if (!isEmailFormatValid(email)) {
+      throw new InvalidEmailFormatException();
+    }
+  }
+
+  private boolean isEmailFormatValid(String email) {
+    return EMAIL_VALIDATOR.isValid(email);
   }
 
   private void validateUniquenessOf(String username, String email) {
