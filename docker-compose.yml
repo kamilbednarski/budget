@@ -30,6 +30,21 @@ services:
       - account_service_db_network
     restart: unless-stopped
 
+  registration_service_db:
+    container_name: registration_service_db
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - ./registration_service/docker:/scripts
+      - registration_service_db:/data/postgres
+    ports:
+      - "5430:5432"
+    networks:
+      - registration_service_db_network
+    restart: unless-stopped
+
 
   pgadmin:
     container_name: pgadmin
@@ -45,6 +60,7 @@ services:
     networks:
       - user_service_db_network
       - account_service_db_network
+      - registration_service_db_network
     restart: unless-stopped
 
   rabbitmq:
@@ -61,10 +77,13 @@ networks:
     driver: bridge
   account_service_db_network:
     driver: bridge
+  registration_service_db_network:
+    driver: bridge
   rabbitmq:
     driver: bridge
 
 volumes:
   user_service_db:
   account_service_db:
+  registration_service_db:
   pgadmin:
