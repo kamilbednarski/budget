@@ -6,6 +6,7 @@ import dev.bednarski.userservice.registration.RegistrationRequest;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ public class UserService {
     return repository.findByUsername(username);
   }
 
+  @Transactional
   public boolean activateUser(ActivationRequest request) {
     User user = repository.findById(request.userId()).orElseThrow(UserNotFoundException::new);
     if (!user.isActive()) {

@@ -26,6 +26,10 @@ public class RegistrationTokenService {
     return token;
   }
 
+  private String generateToken() {
+    return UUID.randomUUID().toString();
+  }
+
   public RegistrationToken confirmToken(String token) {
     RegistrationToken registrationToken = repository.findByToken(token)
         .orElseThrow(UnknownTokenException::new);
@@ -38,9 +42,5 @@ public class RegistrationTokenService {
     if (token.getExpirationDateTime().isBefore(LocalDateTime.now())) {
       throw new ExpiredTokenException();
     }
-  }
-
-  private String generateToken() {
-    return UUID.randomUUID().toString();
   }
 }

@@ -7,6 +7,7 @@ import dev.bednarski.accountservice.user.UserPresenceResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class AccountService {
   private final AccountRepository repository;
   private final MessageSender sender;
 
+  @Transactional
   public void createAccount(AccountCreationRequest request) {
     Long userId = verifyUserAndReadUserId(request.username());
     repository.save(

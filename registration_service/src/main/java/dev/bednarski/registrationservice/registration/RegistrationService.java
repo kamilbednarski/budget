@@ -8,6 +8,7 @@ import dev.bednarski.registrationservice.token.RegistrationTokenService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class RegistrationService {
   private final MessageSender sender;
   private final RegistrationTokenService tokenService;
 
+  @Transactional
   public void register(RegistrationRequest request) {
     validator.validate(request);
     RegistrationResponse userData = registerAndReadUserData(request);
@@ -29,6 +31,7 @@ public class RegistrationService {
         .orElseThrow(UserServiceUnavailableException::new);
   }
 
+  @Transactional
   public void confirmRegistration(String token) {
     RegistrationToken registrationToken = tokenService.confirmToken(token);
     activateUser(registrationToken.getUserId());

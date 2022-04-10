@@ -2,9 +2,9 @@ package dev.bednarski.accountservice.exception.user;
 
 public class UserNotFoundException extends RuntimeException {
 
-  private static final String DEFAULT_MESSAGE = "User could not be found.";
+  private static final String MESSAGE = "User could not be found.";
 
   public UserNotFoundException() {
-    super(DEFAULT_MESSAGE);
+    super(MESSAGE);
   }
 }
