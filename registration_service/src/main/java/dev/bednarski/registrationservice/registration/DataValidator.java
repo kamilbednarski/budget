@@ -15,13 +15,17 @@ import dev.bednarski.registrationservice.exception.username.MissingUsernameExcep
 import dev.bednarski.registrationservice.exception.username.UsernameAlreadyTakenException;
 import dev.bednarski.registrationservice.messaging.MessageSender;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Service;
 
 @Service
-public record DataValidator(MessageSender messageSender) {
+@RequiredArgsConstructor
+public class DataValidator {
 
   private static final EmailValidator EMAIL_VALIDATOR = EmailValidator.getInstance();
+
+  private final MessageSender messageSender;
 
   public void validate(RegistrationRequest request) {
     validateCompletenessAndFormOf(request);
@@ -51,7 +55,7 @@ public record DataValidator(MessageSender messageSender) {
     return isNull(data) || data.isEmpty();
   }
 
-  public void validateFormatOf(String email) {
+  private void validateFormatOf(String email) {
     if (!isEmailFormatValid(email)) {
       throw new InvalidEmailFormatException();
     }
