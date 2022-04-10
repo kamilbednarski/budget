@@ -24,10 +24,11 @@ import org.hibernate.Hibernate;
 @Table(name = "T_APP_USER")
 public class User {
 
+  private static final String SEQUENCE_NAME = "APP_USER_ID_SEQUENCE";
+
   @Id
-  @SequenceGenerator(
-      name = "APP_USER_ID_SEQUENCE", sequenceName = "APP_USER_ID_SEQUENCE", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "APP_USER_ID_SEQUENCE")
+  @SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
   private Long id;
   @NotNull
   private String firstName;

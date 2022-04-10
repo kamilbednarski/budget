@@ -19,6 +19,9 @@ public class MessagingConfig {
   public static final String CONFIRMATION_MAIL_EXCHANGE = "confirmation-mail-exchange";
   public static final String CONFIRMATION_MAIL_KEY = "confirmation-mail-key";
 
+  public static final String USER_ACTIVATION_EXCHANGE = "user-activation-exchange";
+  public static final String USER_ACTIVATION_KEY = "user-activation-key";
+
   @Bean
   public DirectExchange dataValidationExchange() {
     return new DirectExchange(DATA_VALIDATION_EXCHANGE);
@@ -32,6 +35,11 @@ public class MessagingConfig {
   @Bean
   public TopicExchange confirmationMailExchange() {
     return new TopicExchange(CONFIRMATION_MAIL_EXCHANGE);
+  }
+
+  @Bean
+  public DirectExchange userActivationExchange() {
+    return new DirectExchange(USER_ACTIVATION_EXCHANGE);
   }
 
   @Bean

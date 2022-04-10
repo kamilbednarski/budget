@@ -1,5 +1,7 @@
 package dev.bednarski.registrationservice.messaging;
 
+import dev.bednarski.registrationservice.registration.ActivationRequest;
+import dev.bednarski.registrationservice.registration.ActivationResponse;
 import dev.bednarski.registrationservice.registration.MailRequest;
 import dev.bednarski.registrationservice.registration.RegistrationData;
 import dev.bednarski.registrationservice.registration.RegistrationDataValidation;
@@ -20,6 +22,7 @@ public class MessageSender {
   private final DirectExchange dataValidationExchange;
   private final DirectExchange registrationExchange;
   private final TopicExchange confirmationMailExchange;
+  private final DirectExchange userActivationExchange;
 
   public RegistrationDataValidation sendToValidate(RegistrationData request) {
     return template.convertSendAndReceiveAsType(
@@ -42,5 +45,13 @@ public class MessageSender {
         confirmationMailExchange.getName(),
         MessagingConfig.CONFIRMATION_MAIL_KEY,
         request);
+  }
+
+  public ActivationResponse sentToActivateUser(ActivationRequest request) {
+    return template.convertSendAndReceiveAsType(
+        userActivationExchange.getName(),
+        MessagingConfig.USER_ACTIVATION_KEY,
+        request,
+        new ParameterizedTypeReference<>() { });
   }
 }

@@ -21,12 +21,11 @@ import lombok.Setter;
 @Table(name = "T_REGISTRATION_TOKEN")
 public class RegistrationToken {
 
+  private static final String SEQUENCE_NAME = "REGISTRATION_TOKEN_ID_SEQUENCE";
+
   @Id
-  @SequenceGenerator(
-      name = "REGISTRATION_TOKEN_ID_SEQUENCE",
-      sequenceName = "REGISTRATION_TOKEN_ID_SEQUENCE",
-      allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REGISTRATION_TOKEN_ID_SEQUENCE")
+  @SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
   private Long id;
   @NotNull
   private Long userId;

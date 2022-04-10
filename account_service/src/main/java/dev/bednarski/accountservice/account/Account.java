@@ -22,10 +22,11 @@ import lombok.Setter;
 @Table(name = "T_ACCOUNT")
 public class Account {
 
+  public static final String SEQUENCE_NAME = "ACCOUNT_ID_SEQUENCE";
+
   @Id
-  @SequenceGenerator(
-      name = "account_id_sequence", sequenceName = "account_id_sequence", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id_sequence")
+  @SequenceGenerator(name = SEQUENCE_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQUENCE_NAME)
   private Long id;
   @NotNull
   private Long userId;

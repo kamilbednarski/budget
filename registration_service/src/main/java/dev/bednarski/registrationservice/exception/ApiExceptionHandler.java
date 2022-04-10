@@ -6,6 +6,9 @@ import dev.bednarski.registrationservice.exception.email.MissingEmailException;
 import dev.bednarski.registrationservice.exception.name.MissingFirstNameException;
 import dev.bednarski.registrationservice.exception.name.MissingLastNameException;
 import dev.bednarski.registrationservice.exception.password.MissingPasswordConfirmationException;
+import dev.bednarski.registrationservice.exception.registration.CannotConfirmRegistrationException;
+import dev.bednarski.registrationservice.exception.token.ExpiredTokenException;
+import dev.bednarski.registrationservice.exception.token.UnknownTokenException;
 import dev.bednarski.registrationservice.exception.username.MissingUsernameException;
 import dev.bednarski.registrationservice.exception.username.UsernameAlreadyTakenException;
 import dev.bednarski.registrationservice.exception.username.UsernameTooShortException;
@@ -88,6 +91,30 @@ public class ApiExceptionHandler {
   public ResponseEntity<Object> handle(InvalidEmailFormatException exception) {
     log.error("InvalidEmailFormatException: ", exception);
     HttpStatus status = HttpStatus.BAD_REQUEST;
+    var responseBody = new ExceptionResponse(exception.getMessage(), status, ZonedDateTime.now());
+    return new ResponseEntity<>(responseBody, status);
+  }
+
+  @ExceptionHandler(value = {ExpiredTokenException.class})
+  public ResponseEntity<Object> handle(ExpiredTokenException exception) {
+    log.error("ExpiredTokenException: ", exception);
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+    var responseBody = new ExceptionResponse(exception.getMessage(), status, ZonedDateTime.now());
+    return new ResponseEntity<>(responseBody, status);
+  }
+
+  @ExceptionHandler(value = {UnknownTokenException.class})
+  public ResponseEntity<Object> handle(UnknownTokenException exception) {
+    log.error("UnknownTokenException: ", exception);
+    HttpStatus status = HttpStatus.NOT_FOUND;
+    var responseBody = new ExceptionResponse(exception.getMessage(), status, ZonedDateTime.now());
+    return new ResponseEntity<>(responseBody, status);
+  }
+
+  @ExceptionHandler(value = {CannotConfirmRegistrationException.class})
+  public ResponseEntity<Object> handle(CannotConfirmRegistrationException exception) {
+    log.error("CannotConfirmRegistrationException: ", exception);
+    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
     var responseBody = new ExceptionResponse(exception.getMessage(), status, ZonedDateTime.now());
     return new ResponseEntity<>(responseBody, status);
   }
