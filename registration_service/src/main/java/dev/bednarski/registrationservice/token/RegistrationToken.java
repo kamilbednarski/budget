@@ -1,6 +1,6 @@
 package dev.bednarski.registrationservice.token;
 
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

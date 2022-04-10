@@ -2,10 +2,14 @@ package dev.bednarski.userservice.user;
 
 import dev.bednarski.userservice.registration.RegistrationRequest;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public record UserService(UserRepository repository) {
+@RequiredArgsConstructor
+public class UserService {
+
+  private final UserRepository repository;
 
   public User registerFrom(RegistrationRequest request) {
     User user = User.builder()

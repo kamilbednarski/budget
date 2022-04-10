@@ -1,5 +1,6 @@
 package dev.bednarski.registrationservice.registration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,17 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "api/v1/registration-service/registration")
-public record RegistrationController(RegistrationService registrationService) {
+@RequiredArgsConstructor
+public class RegistrationController {
+
+  private final RegistrationService service;
 
   @PostMapping
   public ResponseEntity<Object> register(@RequestBody RegistrationRequest toRequest) {
-    registrationService.register(toRequest);
+    service.register(toRequest);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @PostMapping(path = "/confirm")
   public ResponseEntity<Object> confirmRegistration(@RequestParam String token) {
-    registrationService.confirmRegistration(token);
+    service.confirmRegistration(token);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

@@ -5,10 +5,14 @@ import static dev.bednarski.registrationservice.token.RegistrationTokenBuilder.a
 import dev.bednarski.registrationservice.token.RegistrationToken;
 import dev.bednarski.registrationservice.token.RegistrationTokenRepository;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public record RegistrationTokenService(RegistrationTokenRepository repository) {
+@RequiredArgsConstructor
+public class RegistrationTokenService {
+
+  private final RegistrationTokenRepository repository;
 
   public String createTokenFor(Long userId) {
     String token = generateToken();

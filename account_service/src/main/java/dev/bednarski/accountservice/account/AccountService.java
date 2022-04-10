@@ -5,12 +5,15 @@ import dev.bednarski.accountservice.exception.user.UserNotFoundException;
 import dev.bednarski.accountservice.messaging.MessageSender;
 import dev.bednarski.accountservice.user.UserPresenceResponse;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public record AccountService(
-    AccountRepository repository,
-    MessageSender sender) {
+@RequiredArgsConstructor
+public class AccountService {
+
+  private final AccountRepository repository;
+  private final MessageSender sender;
 
   public void createAccount(AccountCreationRequest request) {
     Long userId = verifyUserAndReadUserId(request.username());

@@ -9,11 +9,15 @@ import dev.bednarski.userservice.user.UserPresenceRequest;
 import dev.bednarski.userservice.user.UserPresenceResponse;
 import dev.bednarski.userservice.user.UserService;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public record MessageHandler(UserService service) {
+@RequiredArgsConstructor
+public class MessageHandler {
+
+  private final UserService service;
 
   @RabbitListener(queues = MessagingConfig.USER_VERIFICATION_QUEUE)
   public UserPresenceResponse verify(UserPresenceRequest request) {

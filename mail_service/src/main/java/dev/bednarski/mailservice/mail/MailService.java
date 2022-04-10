@@ -1,6 +1,7 @@
 package dev.bednarski.mailservice.mail;
 
 import dev.bednarski.mailservice.exception.mail.EmailSendingFailureException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import javax.mail.MessagingException;
@@ -9,10 +10,14 @@ import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 
 @Service
-public record MailService(JavaMailSender sender, MailBuilder builder) {
+@RequiredArgsConstructor
+public class MailService {
 
   private static final String EMAIL_CONFIRMATION_SUBJECT = "Confirm your e-mail";
   private static final String EMAIL_SENDER = "hello@registration.com";
+
+  private final JavaMailSender sender;
+  private final MailBuilder builder;
 
   public void createAndSendConfirmationEmail(MailRequest request) {
     String content = builder.buildConfirmationEmail(request.recipientName(), request.token());

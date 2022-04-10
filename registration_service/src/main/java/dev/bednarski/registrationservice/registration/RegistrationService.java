@@ -3,13 +3,16 @@ package dev.bednarski.registrationservice.registration;
 import dev.bednarski.registrationservice.exception.connection.UserServiceUnavailableException;
 import dev.bednarski.registrationservice.messaging.MessageSender;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public record RegistrationService(
-    DataValidator validator,
-    MessageSender sender,
-    RegistrationTokenService tokenService) {
+@RequiredArgsConstructor
+public class RegistrationService {
+
+  private final DataValidator validator;
+  private final MessageSender sender;
+  private final RegistrationTokenService tokenService;
 
   public void register(RegistrationRequest request) {
     validator.validate(request);
