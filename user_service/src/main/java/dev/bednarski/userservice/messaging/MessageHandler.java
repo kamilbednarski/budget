@@ -1,5 +1,7 @@
 package dev.bednarski.userservice.messaging;
 
+import dev.bednarski.userservice.registration.ActivationRequest;
+import dev.bednarski.userservice.registration.ActivationResponse;
 import dev.bednarski.userservice.registration.RegistrationData;
 import dev.bednarski.userservice.registration.RegistrationDataValidation;
 import dev.bednarski.userservice.registration.RegistrationRequest;
@@ -42,5 +44,11 @@ public class MessageHandler {
         user.getLastName(),
         user.getUsername(),
         user.getEmail());
+  }
+
+  @RabbitListener(queues = MessagingConfig.USER_ACTIVATION_QUEUE)
+  public ActivationResponse activate(ActivationRequest request) {
+    boolean isUserActivated = service.activateUser(request);
+    return new ActivationResponse(isUserActivated);
   }
 }

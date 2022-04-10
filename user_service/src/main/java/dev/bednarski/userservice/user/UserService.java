@@ -1,5 +1,7 @@
 package dev.bednarski.userservice.user;
 
+import dev.bednarski.userservice.exception.user.UserNotFoundException;
+import dev.bednarski.userservice.registration.ActivationRequest;
 import dev.bednarski.userservice.registration.RegistrationRequest;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +35,13 @@ public class UserService {
 
   public Optional<User> findByUsername(String username) {
     return repository.findByUsername(username);
+  }
+
+  public boolean activateUser(ActivationRequest request) {
+    User user = repository.findById(request.userId()).orElseThrow(UserNotFoundException::new);
+    if (!user.isActive()) {
+      user.setActive(true);
+    }
+    return user.isActive();
   }
 }

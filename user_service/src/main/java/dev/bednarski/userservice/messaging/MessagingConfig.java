@@ -24,6 +24,10 @@ public class MessagingConfig {
   public static final String USER_VERIFICATION_EXCHANGE = "user-verification-exchange";
   public static final String USER_VERIFICATION_KEY = "user-verification-key";
 
+  public static final String USER_ACTIVATION_QUEUE = "user-activation-queue";
+  public static final String USER_ACTIVATION_EXCHANGE = "user-activation-exchange";
+  public static final String USER_ACTIVATION_KEY = "user-activation-key";
+
   @Bean
   public Queue dataValidationQueue() {
     return new Queue(DATA_VALIDATION_QUEUE);
@@ -78,6 +82,25 @@ public class MessagingConfig {
         .bind(registrationQueue)
         .to(registrationExchange)
         .with(REGISTRATION_KEY);
+  }
+
+  @Bean
+  public Queue userActivationQueue() {
+    return new Queue(USER_ACTIVATION_QUEUE);
+  }
+
+  @Bean
+  public DirectExchange userActivationExchange() {
+    return new DirectExchange(USER_ACTIVATION_EXCHANGE);
+  }
+
+  @Bean
+  public Binding userActivationBinding(
+      Queue userActivationQueue, DirectExchange userActivationExchange) {
+    return BindingBuilder
+        .bind(userActivationQueue)
+        .to(userActivationExchange)
+        .with(USER_ACTIVATION_KEY);
   }
 
   @Bean

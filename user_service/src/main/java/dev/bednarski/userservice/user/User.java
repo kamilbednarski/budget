@@ -40,6 +40,8 @@ public class User {
   private String email;
   @NotNull
   private String password;
+  @NotNull
+  private boolean isActive;
 
   @Override
   public int hashCode() {
