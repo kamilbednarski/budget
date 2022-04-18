@@ -19,7 +19,7 @@ public class RegistrationController {
   @PostMapping
   public ResponseEntity<Object> register(@RequestBody RegistrationRequest toRequest) {
     service.register(toRequest);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @PostMapping(path = "/confirm")
