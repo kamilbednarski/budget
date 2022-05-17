@@ -17,12 +17,12 @@ public class RegistrationTokenService {
 
   public String createTokenFor(Long userId) {
     String token = generateToken();
-    RegistrationToken registrationToken = aConfirmationToken()
-        .withToken(token)
-        .withUserId(userId)
-        .withDefaultExpirationDateTime()
-        .build();
-    repository.save(registrationToken);
+    repository.save(
+        aConfirmationToken()
+            .withToken(token)
+            .withUserId(userId)
+            .withDefaultExpirationDateTime()
+            .build());
     return token;
   }
 
@@ -31,8 +31,8 @@ public class RegistrationTokenService {
   }
 
   public RegistrationToken confirmToken(String token) {
-    RegistrationToken registrationToken = repository.findByToken(token)
-        .orElseThrow(UnknownTokenException::new);
+    RegistrationToken registrationToken =
+        repository.findByToken(token).orElseThrow(UnknownTokenException::new);
     validateExpirationDateTimeOf(registrationToken);
     registrationToken.setConfirmationDateTime(LocalDateTime.now());
     return registrationToken;

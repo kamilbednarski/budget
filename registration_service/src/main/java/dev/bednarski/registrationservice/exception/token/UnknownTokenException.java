@@ -2,7 +2,7 @@ package dev.bednarski.registrationservice.exception.token;
 
 public class UnknownTokenException extends RuntimeException {
 
-  public static final String MESSAGE = "Requested token does not exist.";
+  private static final String MESSAGE = "Requested token does not exist.";
 
   public UnknownTokenException() {
     super(MESSAGE);
